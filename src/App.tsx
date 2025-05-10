@@ -185,7 +185,8 @@ function App() {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                className="px-4 py-2 text-white rounded-lg"
+                style={{ backgroundColor: 'var(--blue-button)' }}
                 onClick={() => saveSystemMessage(modalInput)}
               >
                 Save
@@ -198,9 +199,9 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col h-screen max-w-4xl mx-auto p-4">
-      <header className="text-center py-4 flex justify-between items-center">
-        <div className="w-24">
+    <div className="flex flex-col h-screen w-full max-w-6xl mx-auto px-4 sm:px-6">
+      <header className="py-4 flex justify-between items-center">
+        <div className="w-10">
           <button
             onClick={openModal}
             className="p-2 text-sm bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300"
@@ -212,8 +213,8 @@ function App() {
             </svg>
           </button>
         </div>
-        <h1 className="text-2xl font-bold">AI Chat</h1>
-        <div className="w-24"></div>
+        <h1 className="text-2xl font-bold text-center">AI Chat</h1>
+        <div className="w-10"></div>
       </header>
 
       <div
@@ -225,35 +226,42 @@ function App() {
             Your conversation will appear here.
           </div>
         ) : (
-          messages.map((message, index) => (
-            <div
-              key={index}
-              className={`p-3 rounded-lg ${
-                message.role === "user"
-                  ? "bg-blue-100 ml-auto max-w-[80%]"
-                  : "bg-gray-100 mr-auto max-w-[80%]"
-              }`}
-            >
-              <div className="font-semibold mb-1">
-                {message.role === "user" ? "You" : "AI"}
-              </div>
-              {message.role === "assistant" ? (
+          <div className="flex flex-col space-y-4 max-w-3xl mx-auto w-full">
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+              >
                 <div
-                  className="markdown-content"
-                  dangerouslySetInnerHTML={{
-                    __html: window.marked.parse ? window.marked.parse(message.content) : window.marked.marked(message.content)
-                  }}
-                />
-              ) : (
-                <div className="whitespace-pre-wrap">{message.content}</div>
-              )}
-            </div>
-          ))
+                  className={`p-3 rounded-lg ${
+                    message.role === "user"
+                      ? "bg-blue-100 max-w-[85%] sm:max-w-[75%]"
+                      : "max-w-[85%] sm:max-w-[75%]"
+                  }`}
+                  style={message.role === "assistant" ? { backgroundColor: 'var(--assistant-bg)' } : {}}
+                >
+                  <div className="font-semibold mb-1 text-left">
+                    {message.role === "user" ? "You" : "AI"}
+                  </div>
+                  {message.role === "assistant" ? (
+                    <div
+                      className="markdown-content text-left"
+                      dangerouslySetInnerHTML={{
+                        __html: window.marked.parse ? window.marked.parse(message.content) : window.marked.marked(message.content)
+                      }}
+                    />
+                  ) : (
+                    <div className="whitespace-pre-wrap text-left">{message.content}</div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      <form onSubmit={handleSubmit} className="flex space-x-2">
+      <form onSubmit={handleSubmit} className="flex space-x-2 w-full max-w-3xl mx-auto mb-12">
         <input
           type="text"
           value={input}
@@ -265,7 +273,8 @@ function App() {
         <button
           type="submit"
           disabled={isLoading || !input.trim()}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50"
+          className="text-white px-4 py-2 rounded-lg disabled:opacity-50"
+          style={{ backgroundColor: 'var(--blue-button)', hover: { backgroundColor: '#292a52' } }}
         >
           Send
         </button>
@@ -280,6 +289,22 @@ function App() {
 
       {/* System Message Modal */}
       <SystemMessageModal />
+
+      {/* Footer */}
+      <footer className="text-center py-3 text-sm fixed bottom-0 left-0 right-0" style={{ backgroundColor: 'var(--assistant-bg)' }}>
+        <p>
+          Built with <span role="img" aria-label="orange heart">🧡</span> using{' '}
+          <a
+            href="https://developers.cloudflare.com/workers-ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline"
+            style={{ color: 'var(--blue-button)' }}
+          >
+            Cloudflare Workers AI
+          </a>
+        </p>
+      </footer>
     </div>
   );
 }
