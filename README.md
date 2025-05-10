@@ -1,6 +1,6 @@
 # Basic Chat App
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=)
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/craigsdennis/basic-ai-chat-workers)
 
 This is a Chat app powered by Cloudflare Workers AI. It is a React app using the Cloudflare Vite plugin and Tailwindcss.
 
