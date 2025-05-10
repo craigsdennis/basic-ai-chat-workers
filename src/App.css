@@ -1,7 +1,8 @@
 #root {
-	max-width: 1280px;
+	width: 100%;
+	max-width: 100%;
 	margin: 0 auto;
-	padding: 2rem;
+	padding: 0;
 	text-align: center;
 }
 
@@ -123,4 +124,24 @@
 
 .markdown-content th {
   background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Button styling for mobile responsiveness */
+@media (max-width: 640px) {
+  button[type="submit"],
+  button[type="button"] {
+    padding: 0.5em 1em;
+    font-size: 0.9em;
+  }
+
+  /* Fix for buttons with Tailwind classes in mobile view */
+  button.hover\:bg-blue-900:hover {
+    background-color: var(--blue-button-hover);
+  }
+
+  /* Better padding for the form in mobile view */
+  form.sticky {
+    padding-bottom: 0.5rem;
+    margin-bottom: 3rem;
+  }
 }

@@ -21,7 +21,7 @@ app.post("/api/chat", async (c) => {
   );
   c.header("Content-Encoding", "Identity");
   return streamText(c, async (stream) => {
-    const chunks = events(new Response(eventSourceStream));
+    const chunks = events(new Response(eventSourceStream as BodyInit));
     for await (const chunk of chunks) {
       if (chunk.data !== undefined && chunk.data !== "[DONE]") {
         const data = JSON.parse(chunk.data);

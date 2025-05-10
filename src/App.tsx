@@ -24,6 +24,7 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Load messages and system message from localStorage on initial render
   useEffect(() => {
@@ -66,6 +67,13 @@ function App() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Focus input after loading is complete
+  useEffect(() => {
+    if (!isLoading) {
+      inputRef.current?.focus();
+    }
+  }, [isLoading]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -189,7 +197,7 @@ function App() {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 text-white rounded-lg"
+                className="px-4 py-2 text-white rounded-lg hover:bg-blue-900"
                 style={{ backgroundColor: "var(--blue-button)" }}
                 onClick={() => saveSystemMessage(modalInput)}
               >
@@ -203,8 +211,8 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col h-screen w-full max-w-6xl mx-auto px-4 sm:px-6">
-      <header className="py-4 flex justify-between items-center">
+    <div className="flex flex-col h-screen w-full mx-auto px-4 sm:px-6">
+      <header className="py-4 flex justify-between items-center sticky top-0 bg-white z-10">
         <h1 className="text-2xl font-bold text-center">👩‍💻💬🗨️🤖</h1>
         <div className="w-10">
           <button
@@ -238,14 +246,14 @@ function App() {
 
       <div
         ref={chatContainerRef}
-        className="flex-1 overflow-y-auto mb-4 space-y-4 p-4 rounded-lg border border-gray-200"
+        className="flex-1 overflow-y-auto mb-4 space-y-4 p-4 rounded-lg border border-gray-200 pb-16"
       >
         {messages.length === 0 ? (
           <div className="text-center text-gray-500 my-8">
             Your conversation will appear here.
           </div>
         ) : (
-          <div className="flex flex-col space-y-6 max-w-3xl mx-auto w-full">
+          <div className="flex flex-col space-y-6 w-full">
             {messages.map((message, index) => (
               <div key={index} className="w-full">
                 {message.role === "user" ? (
@@ -276,7 +284,7 @@ function App() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex space-x-2 w-full max-w-3xl mx-auto mb-12"
+        className="flex space-x-2 w-full mb-16 sticky bottom-12 bg-white py-2 z-10"
       >
         <input
           type="text"
@@ -284,16 +292,14 @@ function App() {
           onChange={(e) => setInput(e.target.value)}
           disabled={isLoading}
           placeholder="Type a message..."
+          ref={inputRef}
           className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
           type="submit"
           disabled={isLoading || !input.trim()}
-          className="text-white px-4 py-2 rounded-lg disabled:opacity-50"
-          style={{
-            backgroundColor: "var(--blue-button)",
-            hover: { backgroundColor: "#292a52" },
-          }}
+          className="text-white px-4 py-2 rounded-lg disabled:opacity-50 hover:bg-blue-900"
+          style={{ backgroundColor: "var(--blue-button)" }}
         >
           Send
         </button>
@@ -311,7 +317,7 @@ function App() {
 
       {/* Footer */}
       <footer
-        className="text-center py-3 text-sm fixed bottom-0 left-0 right-0"
+        className="text-center py-3 text-sm fixed bottom-0 left-0 right-0 z-20 shadow-md"
         style={{ backgroundColor: "var(--assistant-bg)" }}
       >
         <p>

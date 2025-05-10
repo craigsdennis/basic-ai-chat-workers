@@ -16,6 +16,7 @@
 
   /* Custom color variables */
   --blue-button: #1b1c3b;
+  --blue-button-hover: #292a52;
   --assistant-bg: #f7f8fa;
 }
 
@@ -32,6 +33,7 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
+  width: 100%;
   min-width: 320px;
   min-height: 100vh;
 }
