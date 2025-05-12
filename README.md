@@ -6,7 +6,7 @@ This is a Chat app powered by [Cloudflare Workers AI](https://developers.cloudfl
 
 Messages are stored in [LocalStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) and sends them up on each request.
 
-👀 the [Workers code](./src/../worker/index.ts)
+👀 the [Workers code](./worker/index.ts)
 
 You can change the System Message by pressing the settings icon.
 
